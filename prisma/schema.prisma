@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id          String          @id
+  spotifyId   String          @unique
+  displayName String
+  email       String?
+  createdAt   DateTime        @default(now())
+  playlists   SavedPlaylist[]
+}
+
+model SavedPlaylist {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  spotifyId String
+  name      String
+  feature   String
+  createdAt DateTime @default(now())
+}
+
+model GraphEdgeCache {
+  id              String   @id @default(cuid())
+  artistId        String
+  relatedArtistId String
+  collaborations  Int      @default(0)
+  fetchedAt       DateTime @default(now())
+
+  @@unique([artistId, relatedArtistId])
+  @@index([artistId])
+}
+
+model ChartData {
+  id        String  @id @default(cuid())
+  year      Int
+  week      String
+  rank      Int
+  title     String
+  artist    String
+  spotifyId String?
+
+  @@index([year])
+}
