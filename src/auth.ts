@@ -13,6 +13,7 @@ const SPOTIFY_SCOPES = [
 ].join(' ')
 
 const nextAuth = NextAuth({
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   providers: [
     SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID!,

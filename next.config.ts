@@ -8,9 +8,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'mosaic.scdn.co' },
     ],
   },
-  experimental: {
-    serverActions: { allowedOrigins: ['localhost:3000'] }
-  }
 }
 
 export default nextConfig
